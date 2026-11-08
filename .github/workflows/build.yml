@@ -1,0 +1,20 @@
+name: build mystrtp
+on:
+  push:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - run: unzip -q MystSMPCORE-source.zip
+      - run: mvn -B clean package
+        working-directory: MystSMPCORE
+      - uses: actions/upload-artifact@v4
+        with:
+          name: MystSMPCORE
+          path: MystSMPCORE/target/MystSMPCORE.jar
